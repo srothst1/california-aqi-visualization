@@ -3,10 +3,9 @@ import { Ion, Viewer, createWorldTerrain, Cartesian3, NearFarScalar, Math } from
 import "../node_modules/cesium/Build/Cesium/Widgets/widgets.css";
 
 //Local Dependencies
-import { getISS, getISS_2} from './module.js';
+import { getFireData, getAQIData} from './module.js';
 
-// Your access token can be found at: https://cesium.com/ion/tokens.
-// This is the default access token from your ion account
+// Cesium ion access token
 Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWE1OWUxNy1mMWZiLTQzYjYtYTQ0OS1kMWFjYmFkNjc5YzciLCJpZCI6NTc3MzMsImlhdCI6MTYyNzg0NTE4Mn0.XcKpgANiY19MC4bdFUXMVEBToBmqS8kuYpUlxJHYZxk';
 
 // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
@@ -15,12 +14,11 @@ const viewer = new Viewer('cesiumContainer', {
   animation: false,
   timeline: false
 });
-
 viewer.scene.globe.depthTestAgainstTerrain = false;
 
 //TODO: Add icons where there are fires
-getISS(viewer);
-getISS_2(viewer);
+getFireData(viewer);
+getAQIData(viewer);
 
 // Fly the camera to San Francisco at the given longitude, latitude, and height.
 viewer.camera.flyTo({
@@ -34,3 +32,4 @@ viewer.camera.flyTo({
 //TODO: Add icons with locations of fires
 //TODO: Add smoke showcasing the fire location
 //TODO: Add multiple viewing layers
+//TODO: Add smoky clouds

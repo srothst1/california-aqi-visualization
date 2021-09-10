@@ -2,14 +2,17 @@
 import { Ion, Viewer, Color, Cartesian3, NearFarScalar, Math } from "../node_modules/cesium"
 import "../node_modules/cesium/Build/Cesium/Widgets/widgets.css";
 
-//Helper functions
-//TODO: add a correct header
-var api_url = 'https://www.fire.ca.gov/umbraco/api/IncidentApi/GeoJsonList?inactive=false';
-export async function getISS(viewer) {
-  const response = await fetch(api_url);
+/**
+ * Retrieves wildfire data and adds it to the Cesium viewer. 
+ * 
+ * @parameters Cesium.Viewer
+ * @returns NULL
+ */
+var api_url_fire = `https://www.fire.ca.gov/umbraco/api/IncidentApi/GeoJsonList?inactive=false`;
+export async function getFireData(viewer) {
+  const response = await fetch(api_url_fire);
   const data = await response.json();
   for (let i = 0; i < data.features.length; i++){
-    //console.log(data.features[i]);
     viewer.entities.add({
       name: data.features[i].properties.Name,
       description: data.features[i].properties.Url,
@@ -28,12 +31,28 @@ export async function getISS(viewer) {
   }
 }
 
-var api_url_2 = 'https://www.airnowapi.org/aq/data/?startDate=2021-09-09T19&endDate=2021-09-09T20&parameters=PM25&BBOX=-124.860687,32.571982,-113.522797,41.924499&dataType=A&format=application/json&verbose=1&monitorType=0&includerawconcentrations=0&API_KEY=284738AA-7015-4BA9-BA0D-E60A98261D52';
-export async function getISS_2(viewer) {
-  const response = await fetch(api_url_2);
+/**
+ * Retrieves AQI data and adds it to the Cesium viewer. 
+ * 
+ * TODO: Add clustering? 
+ * 
+ * @parameters Cesium.Viewer
+ * @returns NULL
+ */
+
+//Get today's date
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+today = yyyy + '-' + mm + '-' + dd;
+
+//Query data from API
+var api_url_AQI = 'https://www.airnowapi.org/aq/data/?startDate=' + today + 'T0&endDate=' + today + 'T20&parameters=PM25&BBOX=-124.860687,32.571982,-113.522797,41.924499&dataType=A&format=application/json&verbose=1&monitorType=0&includerawconcentrations=0&API_KEY=284738AA-7015-4BA9-BA0D-E60A98261D52';
+export async function getAQIData(viewer) {
+  const response = await fetch(api_url_AQI);
   const data = await response.json();
   for (let i = 0; i < data.length; i++){
-    console.log(data[i]);
     var AQI = data[i].AQI.toString();
     var AgencyName = data[i].AgencyName;
     var DetailedDescription = "Site Name: " + data[i].SiteName;
