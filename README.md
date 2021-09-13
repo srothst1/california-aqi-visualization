@@ -1,5 +1,7 @@
 # cesium-aqi-vis
 
+![image](https://user-images.githubusercontent.com/39531367/133108520-1a90e288-e285-48e8-8d73-ed7e09ada6b5.png)
+
 ![image](https://user-images.githubusercontent.com/39531367/132901053-711ae4e8-3814-4018-80dd-b9b0535174b6.png)
 
 ### Running this application
