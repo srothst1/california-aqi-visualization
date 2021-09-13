@@ -39,6 +39,7 @@ import czm_webMercatorMaxLatitude from './Constants/webMercatorMaxLatitude.js'
 import czm_depthRangeStruct from './Structs/depthRangeStruct.js'
 import czm_material from './Structs/material.js'
 import czm_materialInput from './Structs/materialInput.js'
+import czm_modelMaterial from './Structs/modelMaterial.js'
 import czm_pbrParameters from './Structs/pbrParameters.js'
 import czm_ray from './Structs/ray.js'
 import czm_raySegment from './Structs/raySegment.js'
@@ -162,6 +163,7 @@ export default {
     czm_depthRangeStruct : czm_depthRangeStruct,
     czm_material : czm_material,
     czm_materialInput : czm_materialInput,
+    czm_modelMaterial : czm_modelMaterial,
     czm_pbrParameters : czm_pbrParameters,
     czm_ray : czm_ray,
     czm_raySegment : czm_raySegment,

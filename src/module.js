@@ -1,5 +1,5 @@
 //Global Dependencies 
-import { Ion, Viewer, HorizontalOrigin, Color, Cartesian3, NearFarScalar, Math } from "../node_modules/cesium"
+import { Math, Cartesian2, CloudCollection, Color, Cartesian3, NearFarScalar } from "../node_modules/cesium"
 import "../node_modules/cesium/Build/Cesium/Widgets/widgets.css";
 
 /**
@@ -36,6 +36,7 @@ export async function getFireData(viewer) {
  * 
  * TODO: Add clustering? 
  * TODO: Display the current date?
+ * TODO: More accurate rectangle
  * 
  * @parameters Cesium.Viewer
  * @returns NULL
@@ -80,4 +81,29 @@ export async function getAQIData(viewer) {
       },
     });
   }
+}
+
+/**
+ * Adds clouds to the viewer.  
+ * 
+ * @parameters Cesium.Viewer, clouds
+ * @returns NULL
+ */
+var api_url_clouds = `https://www.airnowapi.org/aq/data/?startDate=2021-09-13T00&endDate=2021-09-13T01&parameters=PM25&BBOX=-126.179047,32.460813,-113.874359,42.087772&dataType=A&format=application/json&verbose=1&monitorType=2&includerawconcentrations=0&API_KEY=284738AA-7015-4BA9-BA0D-E60A98261D52`;
+ export async function addCloudCollection(viewer) {
+  const response = await fetch(api_url_clouds);
+  const data = await response.json();
+  var clouds = new CloudCollection();
+  for (let i = 0; i < data.length; i++){
+    var AQI = data[i].AQI.toString();
+    clouds.add({
+      position : Cartesian3.fromDegrees(data[i].Longitude, data[i].Latitude, 260),
+      scale: new Cartesian2(2000, 300),
+      maximumSize: new Cartesian3(50, 12, 15),
+      slice: 0.49,
+    });
+  }
+  console.log(data.length);
+  console.log(clouds.length);
+  viewer.scene.primitives.add(clouds);
 }

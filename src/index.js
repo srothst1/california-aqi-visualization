@@ -1,9 +1,9 @@
 //Global Dependencies 
-import { Ion, Viewer, createWorldTerrain, Cartesian3, NearFarScalar, Math } from "../node_modules/cesium"
+import { Cesium, CloudCollection, Ion, Viewer, createWorldTerrain, Cartesian3, NearFarScalar, Math } from "../node_modules/cesium"
 import "../node_modules/cesium/Build/Cesium/Widgets/widgets.css";
 
 //Local Dependencies
-import { getFireData, getAQIData} from './module.js';
+import { getFireData, getAQIData, addCloudCollection} from './module.js';
 
 // Cesium ion access token
 Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWE1OWUxNy1mMWZiLTQzYjYtYTQ0OS1kMWFjYmFkNjc5YzciLCJpZCI6NTc3MzMsImlhdCI6MTYyNzg0NTE4Mn0.XcKpgANiY19MC4bdFUXMVEBToBmqS8kuYpUlxJHYZxk';
@@ -12,13 +12,24 @@ Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJlYWE1O
 const viewer = new Viewer('cesiumContainer', {
   terrainProvider: createWorldTerrain(),
   animation: false,
-  timeline: false
+  timeline: false,
+  shouldAnimate: true,
 });
 viewer.scene.globe.depthTestAgainstTerrain = false;
 
-//TODO: Add icons where there are fires
+//TODO: Add icons where there are fires and smoke
+
+var checkList = document.getElementById('list1');
+checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
+  if (checkList.classList.contains('visible'))
+    checkList.classList.remove('visible');
+  else
+    checkList.classList.add('visible');
+}
+
 getFireData(viewer);
 getAQIData(viewer);
+addCloudCollection(viewer);
 
 // Fly the camera to San Francisco at the given longitude, latitude, and height.
 viewer.camera.flyTo({

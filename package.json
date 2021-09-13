@@ -10,7 +10,7 @@
   "author": "Sam Rothstein",
   "license": "ISC",
   "devDependencies": {
-    "cesium": "^1.84.0",
+    "cesium": "^1.85.0",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.2",
