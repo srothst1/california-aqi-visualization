@@ -96,14 +96,41 @@ var api_url_clouds = `https://www.airnowapi.org/aq/data/?startDate=2021-09-13T00
   var clouds = new CloudCollection();
   for (let i = 0; i < data.length; i++){
     var AQI = data[i].AQI.toString();
+    var cloudBrightness;
+    if (AQI >= 100){
+      cloudBrightness = 0.0;
+    } else {
+      cloudBrightness = 1 - (AQI / 100);
+    }
     clouds.add({
       position : Cartesian3.fromDegrees(data[i].Longitude, data[i].Latitude, 260),
       scale: new Cartesian2(2000, 300),
-      maximumSize: new Cartesian3(50, 12, 15),
+      maximumSize: new Cartesian3(500, 120, 150),
       slice: 0.49,
+      noiseDetail: 32.0,
+      brightness: cloudBrightness,
     });
+    //TODO: add a random amount of clouds
+    var numRandClouds = getRandomArbitrary(100,550);
+    for (let j = 0; j < numRandClouds; j++){
+      var x = 0.05
+      var newLat = getRandomArbitrary(data[i].Latitude - x, data[i].Latitude + x);
+      var newLong = getRandomArbitrary(data[i].Longitude - x, data[i].Longitude + x);
+      var height = getRandomArbitrary(200,550);
+      var newCloudBrightness = getRandomArbitrary(cloudBrightness - x, cloudBrightness+x);
+      clouds.add({
+        position : Cartesian3.fromDegrees(newLong, newLat, height),
+        scale: new Cartesian2(2000, 300),
+        maximumSize: new Cartesian3(500, 120, 150),
+        slice: 0.49,
+        noiseDetail: 32.0,
+        brightness: newCloudBrightness,
+      });
+    }
   }
-  console.log(data.length);
-  console.log(clouds.length);
   viewer.scene.primitives.add(clouds);
+}
+
+function getRandomArbitrary(min, max) {
+  return Math.nextRandomNumber() * (max - min) + min;
 }
