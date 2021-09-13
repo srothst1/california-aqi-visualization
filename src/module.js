@@ -1,5 +1,5 @@
 //Global Dependencies 
-import { Ion, Viewer, Color, Cartesian3, NearFarScalar, Math } from "../node_modules/cesium"
+import { Ion, Viewer, HorizontalOrigin, Color, Cartesian3, NearFarScalar, Math } from "../node_modules/cesium"
 import "../node_modules/cesium/Build/Cesium/Widgets/widgets.css";
 
 /**
@@ -35,6 +35,7 @@ export async function getFireData(viewer) {
  * Retrieves AQI data and adds it to the Cesium viewer. 
  * 
  * TODO: Add clustering? 
+ * TODO: Display the current date?
  * 
  * @parameters Cesium.Viewer
  * @returns NULL
@@ -48,7 +49,7 @@ var yyyy = today.getFullYear();
 today = yyyy + '-' + mm + '-' + dd;
 
 //Query data from API
-var api_url_AQI = 'https://www.airnowapi.org/aq/data/?startDate=' + today + 'T0&endDate=' + today + 'T20&parameters=PM25&BBOX=-124.860687,32.571982,-113.522797,41.924499&dataType=A&format=application/json&verbose=1&monitorType=0&includerawconcentrations=0&API_KEY=284738AA-7015-4BA9-BA0D-E60A98261D52';
+var api_url_AQI = 'https://www.airnowapi.org/aq/data/?startDate=' + today + 'T1&endDate=' + today + 'T1&parameters=PM25&BBOX=-124.860687,32.571982,-113.522797,41.924499&dataType=A&format=application/json&verbose=1&monitorType=0&includerawconcentrations=0&API_KEY=284738AA-7015-4BA9-BA0D-E60A98261D52';
 export async function getAQIData(viewer) {
   const response = await fetch(api_url_AQI);
   const data = await response.json();
@@ -62,7 +63,7 @@ export async function getAQIData(viewer) {
       position: Cartesian3.fromDegrees(data[i].Longitude, data[i].Latitude),
       billboard: {
         image: "../images/cloud_emoji.png",
-        scale: 0.125,
+        scale: 0.175,
         translucencyByDistance: new NearFarScalar(
           1.5e2,
           2.0,
@@ -73,14 +74,10 @@ export async function getAQIData(viewer) {
       label: {
         fillColor: Color.BLACK,
         text: AQI,
-        scale: 0.3,
-        translucencyByDistance: new NearFarScalar(
-          1.5e2,
-          2.0,
-          1.5e7,
-          0.5
-        ),
-      }
+        scale: .25,
+        font: "40px sans-serif",
+        eyeOffset : new Cartesian3(0, 0, -1000),
+      },
     });
   }
 }
