@@ -133,13 +133,11 @@ var api_url_clouds = `https://www.airnowapi.org/aq/data/?startDate=2021-09-13T00
 }
 
 function getRandomArbitrary(min, max) {
-  //return Math.nextRandomNumber() * (max - min) + min;
   return random() * (max - min) + min;
 }
 
 function getBellCurveArbitrary(min, max){
-  var temp = randn_bm();
-  return temp * (max - min) + min;
+  return randn_bm() * (max - min) + min;
 }
 
 function randn_bm() {
