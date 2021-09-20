@@ -2,6 +2,7 @@
 import { Math, Cartesian2, CloudCollection, Color, Cartesian3, NearFarScalar } from "../node_modules/cesium"
 import "../node_modules/cesium/Build/Cesium/Widgets/widgets.css";
 
+import { sqrt, random, cos, log } from 'mathjs'
 /**
  * Retrieves wildfire data and adds it to the Cesium viewer. 
  * 
@@ -113,10 +114,10 @@ var api_url_clouds = `https://www.airnowapi.org/aq/data/?startDate=2021-09-13T00
     //TODO: add a random amount of clouds
     var numRandClouds = getRandomArbitrary(100,550);
     for (let j = 0; j < numRandClouds; j++){
-      var x = 0.05
-      var newLat = getRandomArbitrary(data[i].Latitude - x, data[i].Latitude + x);
-      var newLong = getRandomArbitrary(data[i].Longitude - x, data[i].Longitude + x);
-      var height = getRandomArbitrary(200,550);
+      var x = 0.5;
+      var newLat = getBellCurveArbitrary(data[i].Latitude - x, data[i].Latitude + x);
+      var newLong = getBellCurveArbitrary(data[i].Longitude - x, data[i].Longitude + x);
+      var height = getRandomArbitrary(300,750);
       var newCloudBrightness = getRandomArbitrary(cloudBrightness - x, cloudBrightness+x);
       clouds.add({
         position : Cartesian3.fromDegrees(newLong, newLat, height),
@@ -132,5 +133,21 @@ var api_url_clouds = `https://www.airnowapi.org/aq/data/?startDate=2021-09-13T00
 }
 
 function getRandomArbitrary(min, max) {
-  return Math.nextRandomNumber() * (max - min) + min;
+  //return Math.nextRandomNumber() * (max - min) + min;
+  return random() * (max - min) + min;
+}
+
+function getBellCurveArbitrary(min, max){
+  var temp = randn_bm();
+  return temp * (max - min) + min;
+}
+
+function randn_bm() {
+  let u = 0, v = 0;
+  while(u === 0) u = random(); //Converting [0,1) to (0,1)
+  while(v === 0) v = random();
+  let num = sqrt( -2.0 * Math.log2(u) ) * cos( 2.0 * 3.14 * v );
+  num = num / 10.0 + 0.5; // Translate to 0 -> 1
+  if (num > 1 || num < 0) return randn_bm() // resample between 0 and 1
+  return num
 }
