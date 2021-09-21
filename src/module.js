@@ -1,8 +1,9 @@
 //Global Dependencies 
-import { Math, Cartesian2, CloudCollection, Color, Cartesian3, NearFarScalar } from "../node_modules/cesium"
+import { Math, Cartesian2, CloudCollection, Color, CumulusCloud, Cartesian3, NearFarScalar } from "../node_modules/cesium"
 import "../node_modules/cesium/Build/Cesium/Widgets/widgets.css";
 
 import { sqrt, random, cos, log } from 'mathjs'
+// import CumulusCloud from "cesium/Source/Scene/CumulusCloud";
 /**
  * Retrieves wildfire data and adds it to the Cesium viewer. 
  * 
@@ -97,40 +98,45 @@ var api_url_clouds = `https://www.airnowapi.org/aq/data/?startDate=2021-09-13T00
   var clouds = new CloudCollection();
   for (let i = 0; i < data.length; i++){
     var AQI = data[i].AQI.toString();
-    var cloudBrightness;
-    if (AQI >= 100){
-      cloudBrightness = 0.0;
-    } else {
-      cloudBrightness = 1 - (AQI / 100);
-    }
-    clouds.add({
-      position : Cartesian3.fromDegrees(data[i].Longitude, data[i].Latitude, 260),
-      scale: new Cartesian2(2000, 300),
-      maximumSize: new Cartesian3(500, 120, 150),
-      slice: 0.49,
-      noiseDetail: 32.0,
-      brightness: cloudBrightness,
-    });
-    //TODO: add a random amount of clouds
     var numRandClouds = getRandomArbitrary(100,550);
     for (let j = 0; j < numRandClouds; j++){
       var x = 0.5;
       var newLat = getBellCurveArbitrary(data[i].Latitude - x, data[i].Latitude + x);
       var newLong = getBellCurveArbitrary(data[i].Longitude - x, data[i].Longitude + x);
       var height = getRandomArbitrary(300,750);
-      var newCloudBrightness = getRandomArbitrary(cloudBrightness - x, cloudBrightness+x);
-      clouds.add({
+      var newCloudBrightness = getCloudBrightness(AQI);
+
+      var newCumulusCloud = new CumulusCloud({
         position : Cartesian3.fromDegrees(newLong, newLat, height),
         scale: new Cartesian2(2000, 300),
         maximumSize: new Cartesian3(500, 120, 150),
         slice: 0.49,
         noiseDetail: 32.0,
+        cloudType : CloudType.CUMULUS,
         brightness: newCloudBrightness,
       });
+
+      clouds.add(newCumulusCloud);
     }
   }
   viewer.scene.primitives.add(clouds);
 }
+
+
+function getCloudBrightness(AQI){
+  if (AQI < 40){
+    return 1.0;
+  } else if (40 <= AQI < 80){
+    return getBellCurveArbitrary(0.75, 0.95);
+  } else if (80 <= AQI < 100) {
+    return getBellCurveArbitrary(0.55, 0.75);
+  } else if (100 <= AQI < 130){
+    return getBellCurveArbitrary(0.35, 0.55);
+  } else {
+    return 0.0
+  }
+}
+
 
 function getRandomArbitrary(min, max) {
   return random() * (max - min) + min;
