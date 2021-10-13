@@ -1,5 +1,5 @@
 //Global Dependencies 
-import { Math, Cartesian2, CloudCollection, Color, CumulusCloud, Cartesian3, NearFarScalar } from "../node_modules/cesium"
+import { CloudType, Math, Cartesian2, CloudCollection, Color, CumulusCloud, Cartesian3, NearFarScalar } from "../node_modules/cesium"
 import "../node_modules/cesium/Build/Cesium/Widgets/widgets.css";
 
 import { sqrt, random, cos, log } from 'mathjs'
@@ -97,10 +97,10 @@ var api_url_clouds = `https://www.airnowapi.org/aq/data/?startDate=2021-09-13T00
   const data = await response.json();
   var clouds = new CloudCollection();
   for (let i = 0; i < data.length; i++){
-    var AQI = data[i].AQI.toString();
+    var AQI = data[i].AQI;
     var numRandClouds = getRandomArbitrary(100,550);
     for (let j = 0; j < numRandClouds; j++){
-      var x = 0.5;
+      var x = 0.25;
       var newLat = getBellCurveArbitrary(data[i].Latitude - x, data[i].Latitude + x);
       var newLong = getBellCurveArbitrary(data[i].Longitude - x, data[i].Longitude + x);
       var height = getRandomArbitrary(300,750);
@@ -124,14 +124,14 @@ var api_url_clouds = `https://www.airnowapi.org/aq/data/?startDate=2021-09-13T00
 
 
 function getCloudBrightness(AQI){
-  if (AQI < 40){
+  if (AQI < 20){
     return 1.0;
-  } else if (40 <= AQI < 80){
-    return getBellCurveArbitrary(0.75, 0.95);
-  } else if (80 <= AQI < 100) {
-    return getBellCurveArbitrary(0.55, 0.75);
-  } else if (100 <= AQI < 130){
-    return getBellCurveArbitrary(0.35, 0.55);
+  } else if (20 <= AQI < 40){
+    return getBellCurveArbitrary(0.65, 0.95);
+  } else if (40 <= AQI < 60) {
+    return getBellCurveArbitrary(0.05, 0.15);
+  } else if (60 <= AQI < 80){
+    return getBellCurveArbitrary(0.0, 0.05);
   } else {
     return 0.0
   }
