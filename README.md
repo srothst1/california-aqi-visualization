@@ -16,7 +16,7 @@ Navigate to `localhost:8080`.
 ##### Available scripts
 
 * `npm start` - Runs a webpack build with `webpack.config.js` and starts a development server
-* `npm run build` - Runs a webpack build with `webpack.config.js`
+* `npm run build` - Runs a webpack build with `webpack.config.js` 
 
 #### Import named modules from Cesium
 
