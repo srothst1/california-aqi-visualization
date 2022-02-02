@@ -1,4 +1,20 @@
-# cesium-aqi-vis
+# California Air Quality Index Visualization
+
+This project uses CesiumJS, Google Maps, to visualize fires and AQI data in the state of California. The open-source project [SoCalAirQuality](https://github.com/ian-r-rose/SoCalAirQuality) is also highlighted. SoCalAirQuality provides a simple way for people to track the air quality index of a given region on Twitter.
+
+![aqi_vis](https://user-images.githubusercontent.com/39531367/152215065-378966d9-faae-40f8-a29b-a441043897d8.png)
+
+### Running this application
+
+First, clone this repository. Next run:
+```
+npm install
+npm start
+```
+
+and navigate to `localhost:8080`.
+
+### Screenshots
 
 ![image](https://user-images.githubusercontent.com/39531367/133108520-1a90e288-e285-48e8-8d73-ed7e09ada6b5.png)
 
@@ -6,27 +22,24 @@
 
 ![image](https://user-images.githubusercontent.com/39531367/133159194-103c6a04-6c52-419f-b649-1f5725bc3272.png)
 
-### Running this application
-
-	npm install
-	npm start
-
-Navigate to `localhost:8080`.
-
-##### Available scripts
+### Available scripts
 
 * `npm start` - Runs a webpack build with `webpack.config.js` and starts a development server
 * `npm run build` - Runs a webpack build with `webpack.config.js` 
 
-#### Import named modules from Cesium
+### Import named modules from Cesium
 
-	import { Color } from 'cesium';
-	var c = Color.fromRandom();
+```
+import { Color } from 'cesium';
+var c = Color.fromRandom();
+```
 
-#### Import Cesium static asset files
-	
-	import "cesium/Build/Cesium/Widgets/widgets.css";
+### Import Cesium static asset files
 
-## Contributions
+```
+import "cesium/Build/Cesium/Widgets/widgets.css";
+```
+
+### Contributions
 
 Pull requests are appreciated. Please use the same Contributor License Agreement (CLA)
