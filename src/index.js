@@ -1,5 +1,5 @@
 //Global Dependencies 
-import { Cesium, CloudCollection, Ion, Viewer, createWorldTerrain, Cartesian3, NearFarScalar, Math } from "../node_modules/cesium"
+import { Ion, Viewer, createWorldTerrain, Cartesian3, Math } from "../node_modules/cesium"
 import "../node_modules/cesium/Build/Cesium/Widgets/widgets.css";
 
 //Local Dependencies
@@ -14,21 +14,20 @@ const viewer = new Viewer('cesiumContainer', {
   animation: false,
   timeline: false,
   shouldAnimate: true,
+  fullscreenButton: false,
+  homeButton: false,
+  geocoder: false,
+  navigationHelpButton: false,
+  sceneModePicker: false
 });
+viewer._cesiumWidget._creditContainer.style.display = "none";
 viewer.scene.globe.depthTestAgainstTerrain = false;
 
-//TODO: Add icons where there are fires and smoke
-
-var checkList = document.getElementById('list1');
-checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
-  if (checkList.classList.contains('visible'))
-    checkList.classList.remove('visible');
-  else
-    checkList.classList.add('visible');
-}
-
+//Add icons with locations of fires
 getFireData(viewer);
+//Add AQI data
 getAQIData(viewer);
+//Add smokey clouds
 addCloudCollection(viewer);
 
 // Fly the camera to San Francisco at the given longitude, latitude, and height.
@@ -39,8 +38,3 @@ viewer.camera.flyTo({
     pitch : Math.toRadians(-90.0),
   }
 });
-
-//TODO: Add icons with locations of fires
-//TODO: Add smoke showcasing the fire location
-//TODO: Add multiple viewing layers
-//TODO: Add smoky clouds

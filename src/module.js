@@ -1,9 +1,8 @@
 //Global Dependencies 
 import { CloudType, Math, Cartesian2, CloudCollection, Color, CumulusCloud, Cartesian3, NearFarScalar } from "../node_modules/cesium"
 import "../node_modules/cesium/Build/Cesium/Widgets/widgets.css";
+import { sqrt, random, cos } from 'mathjs'
 
-import { sqrt, random, cos, log } from 'mathjs'
-// import CumulusCloud from "cesium/Source/Scene/CumulusCloud";
 /**
  * Retrieves wildfire data and adds it to the Cesium viewer. 
  * 
@@ -122,7 +121,12 @@ var api_url_clouds = `https://www.airnowapi.org/aq/data/?startDate=2021-09-13T00
   viewer.scene.primitives.add(clouds);
 }
 
-
+/**
+ * Returns a brightness value for a cloud based upon an AQI value.  
+ * 
+ * @parameters AQI
+ * @returns brightness value
+ */
 function getCloudBrightness(AQI){
   if (AQI < 20){
     return 1.0;
@@ -137,15 +141,13 @@ function getCloudBrightness(AQI){
   }
 }
 
-
+//The following three functions are helper functions for randomly adding clouds to the scene.
 function getRandomArbitrary(min, max) {
   return random() * (max - min) + min;
 }
-
 function getBellCurveArbitrary(min, max){
   return randn_bm() * (max - min) + min;
 }
-
 function randn_bm() {
   let u = 0, v = 0;
   while(u === 0) u = random(); //Converting [0,1) to (0,1)

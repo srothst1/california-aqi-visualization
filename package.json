@@ -4,8 +4,8 @@
   "description": "cesium-aqi-vis.",
   "main": "index.js",
   "scripts": {
-    "build": "node_modules/.bin/webpack --config webpack.config.js",
-    "start": "node_modules/.bin/webpack serve --config webpack.config.js --open"
+    "build": "webpack --config webpack.config.js",
+    "start": "webpack serve --config webpack.config.js --open"
   },
   "author": "Sam Rothstein",
   "license": "ISC",
