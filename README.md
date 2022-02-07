@@ -15,6 +15,13 @@ npm start
 and navigate to `localhost:8080`.
 
 ### Screenshots
+Overview #1:
+![image](https://user-images.githubusercontent.com/39531367/152823235-dc8a9fd6-30c9-485a-9560-046935565b12.png)
+Overview #2:
+![image](https://user-images.githubusercontent.com/39531367/152823273-e38ef0b4-dd0d-4b6d-bde8-20364a24ed8b.png)
+Overview #3:
+![image](https://user-images.githubusercontent.com/39531367/152823297-aeead78c-841b-41a3-8a99-909e15f7a652.png)
+
 
 ![image](https://user-images.githubusercontent.com/39531367/133108520-1a90e288-e285-48e8-8d73-ed7e09ada6b5.png)
 
