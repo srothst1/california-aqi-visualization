@@ -2,7 +2,7 @@
 
 This project uses CesiumJS, Google Maps, to visualize fires and AQI data in the state of California. The open-source project [SoCalAirQuality](https://github.com/ian-r-rose/SoCalAirQuality) is also highlighted. SoCalAirQuality provides a simple way for people to track the air quality index of a given region on Twitter.
 
-2/7/2022 AM update - [Here](https://srothst1.github.io/dist/index.html) is a live demo that is partially working. The CesiumJS viewer is having issues. I recommend cloning this repo and running it locally, but the live demo will give you a sense of what the site looks like. Will update and fix later this week.
+2/7/2022 AM update - [Here](https://srothst1.github.io/dist/index.html) is a live demo that is partially working. The CesiumJS viewer is having issues. I recommend cloning this repo and running it locally, but the live demo will give you a sense of what the site looks like. Will update and fix later this week when I have more time.
 
 ### Running this application
 
